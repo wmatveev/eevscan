@@ -8,14 +8,14 @@ import (
 	"time"
 )
 
-type LaserController struct {
+type Controller struct {
 	Address    uint16
 	Bus        i2c.BusCloser
 	Device     i2c.Dev
 	PinChanges chan bool
 }
 
-func NewLaserController(address uint16) (*LaserController, error) {
+func NewLaserController(address uint16) (*Controller, error) {
 	if _, err := host.Init(); err != nil {
 		return nil, err
 	}
@@ -27,7 +27,7 @@ func NewLaserController(address uint16) (*LaserController, error) {
 
 	dev := i2c.Dev{Bus: bus, Addr: address}
 
-	return &LaserController{
+	return &Controller{
 		Address:    address,
 		Bus:        bus,
 		Device:     dev,
@@ -35,7 +35,7 @@ func NewLaserController(address uint16) (*LaserController, error) {
 	}, nil
 }
 
-func (lc *LaserController) StartPinsPolling() {
+func (lc *Controller) StartPinsPolling() {
 	var readBuf [1]byte
 	var lastState bool
 
