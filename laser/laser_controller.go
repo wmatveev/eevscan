@@ -20,7 +20,7 @@ func NewLaserController(address uint16) (*LaserController, error) {
 		return nil, err
 	}
 
-	bus, err := i2creg.Open("1")
+	bus, err := i2creg.Open("")
 	if err != nil {
 		return nil, err
 	}
