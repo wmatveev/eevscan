@@ -22,14 +22,14 @@ func NewLaserController(address uint16) (*LaserController, error) {
 
 	log.Printf("---> 1: \n")
 
-	bus, err := i2creg.Open("/dev/i2c-1")
+	bus, err := i2creg.Open("1")
 	if err != nil {
 		return nil, err
 	}
 
 	log.Printf("---> 2: \n")
 
-	dev := i2c.Dev{Bus: bus, Addr: address}
+	dev := i2c.Dev{Bus: bus, Addr: 0x21}
 
 	log.Printf("---> 3: \n")
 
