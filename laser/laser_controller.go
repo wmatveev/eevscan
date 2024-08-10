@@ -9,9 +9,9 @@ import (
 )
 
 type Controller struct {
-	Address    uint16
-	Bus        i2c.BusCloser
-	Device     i2c.Dev
+	addr       uint16
+	bus        i2c.BusCloser
+	device     i2c.Dev
 	PinChanges chan bool
 }
 
@@ -28,9 +28,9 @@ func NewLaserController(address uint16) (*Controller, error) {
 	dev := i2c.Dev{Bus: bus, Addr: address}
 
 	return &Controller{
-		Address:    address,
-		Bus:        bus,
-		Device:     dev,
+		addr:       address,
+		bus:        bus,
+		device:     dev,
 		PinChanges: make(chan bool),
 	}, nil
 }
@@ -40,7 +40,7 @@ func (lc *Controller) StartPinsPolling() {
 	var lastState bool
 
 	for {
-		if err := lc.Device.Tx(nil, readBuf[:]); err != nil {
+		if err := lc.device.Tx(nil, readBuf[:]); err != nil {
 			log.Printf("Failed to read from device: %v\n", err)
 			break
 		}
