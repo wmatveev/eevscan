@@ -25,7 +25,7 @@ func NewLaserController(address uint16) (*LaserController, error) {
 		return nil, err
 	}
 
-	dev := i2c.Dev{Bus: bus, Addr: 0x21}
+	dev := i2c.Dev{Bus: bus, Addr: address}
 
 	return &LaserController{
 		Address:    address,
