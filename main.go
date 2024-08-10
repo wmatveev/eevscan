@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	lc, err := laser.NewLaserController(21)
+	lc, err := laser.NewLaserController(0x21)
 	if err != nil {
 		log.Fatalf("Failed to initialize laser controller: %v", err)
 	}
