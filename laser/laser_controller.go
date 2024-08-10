@@ -48,7 +48,6 @@ func (lc *LaserController) StartPinsPolling() {
 		currentState := readBuf[0]&0x01 == 0x01
 
 		if currentState != lastState {
-			log.Printf("--->: %v\n", currentState)
 			lc.PinChanges <- currentState
 			lastState = currentState
 		}
