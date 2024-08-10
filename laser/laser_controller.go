@@ -20,18 +20,12 @@ func NewLaserController(address uint16) (*LaserController, error) {
 		return nil, err
 	}
 
-	log.Printf("---> 1: \n")
-
 	bus, err := i2creg.Open("1")
 	if err != nil {
 		return nil, err
 	}
 
-	log.Printf("---> 2: \n")
-
 	dev := i2c.Dev{Bus: bus, Addr: 0x21}
-
-	log.Printf("---> 3: \n")
 
 	return &LaserController{
 		Address:    address,
@@ -45,17 +39,11 @@ func (lc *LaserController) StartPinsPolling() {
 	var readBuf [1]byte
 	var lastState bool
 
-	log.Printf("---> 4: \n")
-
 	for {
-		log.Printf("---> 5: \n")
-
 		if err := lc.Device.Tx(nil, readBuf[:]); err != nil {
 			log.Printf("Failed to read from device: %v\n", err)
 			break
 		}
-
-		log.Printf("---> 6: \n")
 
 		currentState := readBuf[0]&0x80 == 0x01
 
