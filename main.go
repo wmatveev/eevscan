@@ -26,7 +26,7 @@ func main() {
 		if change == true {
 			_ = sc.ActivateScanner()
 		} else {
-			//_ = sc.DeactivateScanner()
+			_ = sc.DeactivateScanner()
 		}
 
 		time.Sleep(1 * time.Second)
