@@ -33,9 +33,15 @@ func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
 	log.Println("Object Entered To Zone")
 	sm.laserController.Pause <- true
 
+	log.Printf("---> 1")
+
 	sm.portController.RestartPortsReading()
 
+	log.Printf("---> 2")
+
 	sm.scannerController.ActivateScanner()
+
+	log.Printf("---> 3")
 
 	go func() {
 		select {
@@ -48,6 +54,8 @@ func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
 			return
 		}
 	}()
+
+	log.Printf("---> 4")
 
 	sm.laserController.Resume <- true
 }
