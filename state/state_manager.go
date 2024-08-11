@@ -32,14 +32,9 @@ func NewStateManager(lc *laser.Controller, sc *scanner.Controller, pc *device.Po
 func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
 	log.Println("Object Entered To Zone")
 
-	select {
-	case sm.laserController.Pause <- true:
-		log.Println("Laser controller paused")
-	default:
-		log.Println("Laser controller already paused")
-	}
+	sm.laserController.Pause()
 
-	sm.portController.StartPortsReading()
+	sm.portController.RestartPortsReading()
 
 	sm.scannerController.ActivateScanner()
 
@@ -55,14 +50,7 @@ func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
 		}
 	}()
 
-	log.Printf("---> 4")
-
-	select {
-	case sm.laserController.Resume <- true:
-		log.Println("Laser controller resumed")
-	default:
-		log.Println("Laser controller was not paused")
-	}
+	sm.laserController.Resume()
 }
 
 func (sm *StateManager) Start() {
