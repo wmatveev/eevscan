@@ -35,6 +35,8 @@ func main() {
 	stateManager := state.NewStateManager(lc, sc, pc)
 	stateManager.Start()
 
+	select {}
+
 	//lc, err := laser.NewLaserController(0x21)
 	//if err != nil {
 	//	log.Fatalf("Failed to initialize laser controller: %v", err)
