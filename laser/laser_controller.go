@@ -26,6 +26,7 @@ func NewLaserController(deviceAddr uint16) (*Controller, error) {
 
 func (lc *Controller) StartPinsPolling(eventManager *events.EventManager) {
 	var lastState bool
+	log.Println("---> 0")
 
 	for {
 		log.Println("---> 1")

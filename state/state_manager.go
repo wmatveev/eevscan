@@ -34,5 +34,6 @@ func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
 }
 
 func (sm *StateManager) Start() {
+	log.Println("---> state_manager 5")
 	go sm.laserController.StartPinsPolling(sm.eventManager)
 }
