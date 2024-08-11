@@ -46,6 +46,6 @@ func (lc *Controller) StartPinsPolling(eventManager *events.EventManager) {
 			lastState = currentState
 		}
 
-		time.Sleep(1 * time.Millisecond)
+		time.Sleep(10 * time.Millisecond)
 	}
 }
