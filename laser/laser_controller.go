@@ -18,6 +18,8 @@ func NewLaserController(deviceAddr uint16) (*Controller, error) {
 		log.Fatalf("Failed to initialize laser controller: %v", err)
 	}
 
+	_ = dc.WriteToDevice(0x00)
+
 	return &Controller{
 		deviceController: dc,
 		PinChanges:       make(chan bool),
