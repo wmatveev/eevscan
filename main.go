@@ -23,11 +23,13 @@ func main() {
 	go lc.StartPinsPolling()
 
 	for change := range lc.PinChanges {
-		_ = sc.ActivateScanner()
+		if change == true {
+			_ = sc.ActivateScanner()
+		} else {
+			_ = sc.DeactivateScanner()
+		}
 
 		time.Sleep(1 * time.Second)
-
-		_ = sc.DeactivateScanner()
 
 		fmt.Printf("Pin state changed to: %t\n", change)
 	}
