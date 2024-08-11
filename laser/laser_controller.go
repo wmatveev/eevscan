@@ -2,6 +2,7 @@ package laser
 
 import (
 	"eevscan/device"
+	"fmt"
 	"log"
 	"time"
 )
@@ -33,6 +34,8 @@ func (lc *Controller) StartPinsPolling() {
 		}
 
 		currentState := readData&0x01 == 0x01
+
+		fmt.Printf("---> CurrentState: %t\n", currentState)
 
 		if currentState != lastState {
 			lc.PinChanges <- currentState
