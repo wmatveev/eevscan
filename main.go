@@ -30,7 +30,7 @@ func main() {
 
 	for change := range lc.PinChanges {
 		if change == true {
-			go pc.StartPortsReading()
+			pc.RestartPortsReading()
 
 			_ = sc.ActivateScanner()
 

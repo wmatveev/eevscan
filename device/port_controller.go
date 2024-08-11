@@ -27,6 +27,12 @@ func NewPortController() (*PortController, error) {
 	}, nil
 }
 
+func (pc *PortController) RestartPortsReading() {
+	close(pc.QuitChannel)
+	pc.QuitChannel = make(chan struct{})
+	go pc.StartPortsReading()
+}
+
 func (pc *PortController) StartPortsReading() {
 
 	for _, port := range pc.portNames {
