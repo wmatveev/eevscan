@@ -1,6 +1,7 @@
 package main
 
 import (
+	"eevscan/device"
 	"eevscan/laser"
 	"eevscan/scanner"
 	"fmt"
@@ -20,13 +21,28 @@ func main() {
 		log.Fatalf("Failed to initialize laser controller: %v", err)
 	}
 
+	pc, err := device.NewPortController()
+	if err != nil {
+		log.Fatalf("Failed to initialize port controller: %v", err)
+	}
+
 	go lc.StartPinsPolling()
 
 	for change := range lc.PinChanges {
 		if change == true {
+			go pc.StartPortsReading()
+
 			_ = sc.ActivateScanner()
-		} else {
-			_ = sc.DeactivateScanner()
+
+		barcodeLoop:
+			for barcode := range pc.Barcode {
+				if barcode != nil {
+					close(pc.QuitChannel)
+					_ = sc.DeactivateScanner()
+
+					break barcodeLoop
+				}
+			}
 		}
 
 		time.Sleep(1 * time.Second)
