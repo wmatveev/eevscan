@@ -35,19 +35,19 @@ func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
 	sm.laserController.Pause()
 
 	sm.scannerController.ActivateScanner()
-	sm.portController.RestartPortsReading()
+	sm.portController.StartPortsReading()
 
-	go func() {
-		select {
-		case barcode := <-sm.portController.Barcode:
-			log.Printf("Received barcode: %s", string(barcode))
-			close(sm.portController.QuitChannel)
-
-		case <-sm.portController.QuitChannel:
-			log.Println("Stopping barcode reading goroutine")
-			return
-		}
-	}()
+	//go func() {
+	//	select {
+	//	case barcode := <-sm.portController.Barcode:
+	//		log.Printf("Received barcode: %s", string(barcode))
+	//		close(sm.portController.QuitChannel)
+	//
+	//	case <-sm.portController.QuitChannel:
+	//		log.Println("Stopping barcode reading goroutine")
+	//		return
+	//	}
+	//}()
 
 	sm.laserController.Resume()
 }
