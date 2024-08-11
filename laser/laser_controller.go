@@ -28,10 +28,14 @@ func (lc *Controller) StartPinsPolling(eventManager *events.EventManager) {
 	var lastState bool
 
 	for {
+		log.Println("---> 1")
+
 		readData, err := lc.deviceController.ReadingFromDevice()
 		if err != nil {
 			log.Fatalf("Failed to read from device: %v", err)
 		}
+
+		log.Println("---> 2")
 
 		currentState := readData&0x03 != 0x00
 
@@ -40,6 +44,8 @@ func (lc *Controller) StartPinsPolling(eventManager *events.EventManager) {
 				Type:    events.EventObjectEnteredToZone,
 				Payload: currentState,
 			})
+
+			log.Println("---> 3")
 
 			lastState = currentState
 		}
