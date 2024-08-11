@@ -2,14 +2,13 @@ package laser
 
 import (
 	"eevscan/device"
-	"fmt"
+	"eevscan/events"
 	"log"
 	"time"
 )
 
 type Controller struct {
 	deviceController *device.Controller
-	PinChanges       chan bool
 }
 
 func NewLaserController(deviceAddr uint16) (*Controller, error) {
@@ -22,11 +21,10 @@ func NewLaserController(deviceAddr uint16) (*Controller, error) {
 
 	return &Controller{
 		deviceController: dc,
-		PinChanges:       make(chan bool),
 	}, nil
 }
 
-func (lc *Controller) StartPinsPolling() {
+func (lc *Controller) StartPinsPolling(eventManager *events.EventManager) {
 	var lastState bool
 
 	for {
@@ -35,12 +33,14 @@ func (lc *Controller) StartPinsPolling() {
 			log.Fatalf("Failed to read from device: %v", err)
 		}
 
-		currentState := readData&0x01 == 0x01
+		currentState := readData&0x03 != 0x00
 
-		fmt.Printf("---> CurrentState: %t\n", currentState)
+		if currentState != lastState && currentState == true {
+			eventManager.Publish(events.Event{
+				Type:    events.EventObjectEnteredToZone,
+				Payload: currentState,
+			})
 
-		if currentState != lastState {
-			lc.PinChanges <- currentState
 			lastState = currentState
 		}
 
