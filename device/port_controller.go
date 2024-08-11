@@ -38,9 +38,13 @@ func (pc *PortController) StartPortsReading() {
 		default:
 			barcode, err := ReadFromPort(port)
 			if err != nil {
+				log.Printf("Failed to read from port %s: %v", port, err)
 				continue
 			}
+
+			log.Printf("--->1 Barcode bytes: %d", barcode)
 			if barcode != nil {
+				log.Printf("--->2 Barcode bytes: %d", barcode)
 				pc.Barcode <- barcode
 			}
 		}
