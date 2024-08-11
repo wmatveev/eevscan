@@ -35,26 +35,40 @@ func (pc *PortController) RestartPortsReading() {
 
 func (pc *PortController) StartPortsReading() {
 
-	for _, port := range pc.portNames {
-		select {
-		case <-pc.QuitChannel:
-			log.Println("Stopping ports reading")
+	for {
+		barcode, err := ReadFromPort("/dev/ttyACM0")
+		if err != nil {
+			log.Printf("Failed to read from port %s: %v", "/dev/ttyACM0", err)
+			continue
+		}
+
+		log.Printf("--->1 Barcode bytes: %s", string(barcode))
+		if barcode != nil {
+			log.Printf("--->2 Barcode bytes: %s", string(barcode))
 			return
-
-		default:
-			barcode, err := ReadFromPort(port)
-			if err != nil {
-				log.Printf("Failed to read from port %s: %v", port, err)
-				continue
-			}
-
-			log.Printf("--->1 Barcode bytes: %s", string(barcode))
-			if barcode != nil {
-				log.Printf("--->2 Barcode bytes: %s", string(barcode))
-				pc.Barcode <- barcode
-			}
 		}
 	}
+
+	//for _, port := range pc.portNames {
+	//	select {
+	//	case <-pc.QuitChannel:
+	//		log.Println("Stopping ports reading")
+	//		return
+	//
+	//	default:
+	//		barcode, err := ReadFromPort(port)
+	//		if err != nil {
+	//			log.Printf("Failed to read from port %s: %v", port, err)
+	//			continue
+	//		}
+	//
+	//		log.Printf("--->1 Barcode bytes: %s", string(barcode))
+	//		if barcode != nil {
+	//			log.Printf("--->2 Barcode bytes: %s", string(barcode))
+	//			pc.Barcode <- barcode
+	//		}
+	//	}
+	//}
 
 	return
 }
