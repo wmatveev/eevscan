@@ -37,11 +37,13 @@ func (lc *Controller) StartPinsPolling(eventManager *events.EventManager) {
 
 		log.Printf("---> currentState: %v\n", currentState)
 
-		if currentState != lastState && currentState == true {
-			eventManager.Publish(events.Event{
-				Type:    events.EventObjectEnteredToZone,
-				Payload: currentState,
-			})
+		if currentState != lastState {
+			if currentState == true {
+				eventManager.Publish(events.Event{
+					Type:    events.EventObjectEnteredToZone,
+					Payload: currentState,
+				})
+			}
 
 			lastState = currentState
 		}
