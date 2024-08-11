@@ -35,8 +35,6 @@ func (lc *Controller) StartPinsPolling(eventManager *events.EventManager) {
 
 		currentState := readData&0x03 != 0x00
 
-		log.Printf("---> currentState: %v\n", currentState)
-
 		if currentState != lastState {
 			if currentState == true {
 				eventManager.Publish(events.Event{
