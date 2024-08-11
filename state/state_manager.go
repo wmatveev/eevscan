@@ -39,7 +39,7 @@ func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
 		log.Println("Laser controller already paused")
 	}
 
-	sm.portController.RestartPortsReading()
+	sm.portController.StartPortsReading()
 
 	sm.scannerController.ActivateScanner()
 
