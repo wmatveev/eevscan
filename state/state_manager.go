@@ -5,7 +5,6 @@ import (
 	"eevscan/events"
 	"eevscan/laser"
 	"eevscan/scanner"
-	"log"
 )
 
 type StateManager struct {
@@ -30,9 +29,6 @@ func NewStateManager(lc *laser.Controller, sc *scanner.Controller, pc *device.Po
 }
 
 func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
-	log.Println(event)
-	//log.Println("Object Entered To Zone")
-
 	sm.laserController.Pause()
 
 	sm.scannerController.ActivateScanner()
@@ -40,6 +36,8 @@ func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
 	sm.scannerController.DeactivateScanner()
 
 	sm.laserController.Resume()
+
+	_ = event
 }
 
 func (sm *StateManager) Start() {
