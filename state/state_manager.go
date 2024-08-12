@@ -58,8 +58,8 @@ func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
 }
 
 func (sm *StateManager) handleSendBarcodeToRS232(event events.Event) {
-	if barcode, ok := event.Payload.(string); ok {
-		sm.rs232Controller.Write(barcode)
+	if _, ok := event.Payload.(string); ok {
+		sm.rs232Controller.Write("12345")
 	} else {
 		log.Println("Invalid payload for barcode, expected []byte")
 	}
