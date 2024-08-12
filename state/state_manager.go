@@ -47,7 +47,7 @@ func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
 	if barcode != nil {
 		sm.EventManager.Publish(events.Event{
 			Type:    events.EventSendBarcodeToRS232,
-			Payload: barcode,
+			Payload: "JM-SH-OD-0145",
 		})
 	}
 
