@@ -42,9 +42,8 @@ func (pc *PortController) StartPortsReading() {
 			continue
 		}
 
-		log.Printf("--->1 Barcode bytes: %s", string(barcode))
 		if barcode != nil {
-			log.Printf("--->2 Barcode bytes: %s", string(barcode))
+			log.Printf("---> Barcode bytes: %s", string(barcode))
 			return
 		}
 	}
