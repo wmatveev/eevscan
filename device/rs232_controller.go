@@ -17,6 +17,8 @@ func NewRS232Controller() (*RS232Controller, error) {
 }
 
 func (rs *RS232Controller) Write(data []byte) {
+	byteData := []byte(data)
+
 	c := &serial.Config{Name: "/dev/ttyUSB0", Baud: 9600}
 	s, err := serial.OpenPort(c)
 	if err != nil {
@@ -29,8 +31,8 @@ func (rs *RS232Controller) Write(data []byte) {
 		}
 	}(s)
 
-	log.Printf("Send to RS232 serial port:%b", data)
-	_, err = s.Write(data)
+	log.Printf("Send to RS232 serial port:%s", byteData)
+	_, err = s.Write(byteData)
 	if err != nil {
 		log.Printf("RS232 Write err:%v", err)
 		return
