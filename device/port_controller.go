@@ -43,31 +43,10 @@ func (pc *PortController) StartPortsReading() {
 		}
 
 		if barcode != nil {
-			log.Printf("---> Barcode bytes: %s", string(barcode))
+			log.Printf("Barcode bytes: %s", string(barcode))
 			return
 		}
 	}
-
-	//for _, port := range pc.portNames {
-	//	select {
-	//	case <-pc.QuitChannel:
-	//		log.Println("Stopping ports reading")
-	//		return
-	//
-	//	default:
-	//		barcode, err := ReadFromPort(port)
-	//		if err != nil {
-	//			log.Printf("Failed to read from port %s: %v", port, err)
-	//			continue
-	//		}
-	//
-	//		log.Printf("--->1 Barcode bytes: %s", string(barcode))
-	//		if barcode != nil {
-	//			log.Printf("--->2 Barcode bytes: %s", string(barcode))
-	//			pc.Barcode <- barcode
-	//		}
-	//	}
-	//}
 
 	return
 }
@@ -78,7 +57,12 @@ func ReadFromPort(portName string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer s.Close()
+	defer func(s *serial.Port) {
+		err := s.Close()
+		if err != nil {
+
+		}
+	}(s)
 
 	buf := make([]byte, 128)
 	n, err := s.Read(buf)
