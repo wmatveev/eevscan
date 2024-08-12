@@ -43,7 +43,12 @@ func (rs *RS232Controller) Write(data interface{}) {
 	}(s)
 
 	log.Printf("Send to RS232 serial port:%s", byteData)
-	_, err = s.Write(byteData)
+
+	var myData []byte
+
+	myData = append(myData, []byte("1234")...)
+
+	_, err = s.Write([]byte(myData))
 	if err != nil {
 		log.Printf("RS232 Write err:%v", err)
 		return
