@@ -5,6 +5,7 @@ import (
 	"eevscan/events"
 	"eevscan/laser"
 	"eevscan/scanner"
+	"log"
 )
 
 type StateManager struct {
@@ -47,6 +48,8 @@ func (sm *StateManager) Start() {
 
 func (sm *StateManager) handleShutdown(event events.Event) {
 	sm.scannerController.DeactivateScanner()
+
+	log.Println("test")
 
 	_ = event
 }
