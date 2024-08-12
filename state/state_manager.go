@@ -46,5 +46,7 @@ func (sm *StateManager) Start() {
 }
 
 func (sm *StateManager) handleShutdown(event events.Event) {
+	sm.scannerController.DeactivateScanner()
 
+	_ = event
 }
