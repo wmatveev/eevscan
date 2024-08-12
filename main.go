@@ -28,16 +28,20 @@ func main() {
 		log.Fatalf("Failed to initialize port controller: %v", err)
 	}
 
-	stateManager := state.NewStateManager(lc, sc, pc)
+	rs, err := device.NewRS232Controller()
+	if err != nil {
+		log.Fatalf("Failed to initialize rs232 controller: %v", err)
+	}
+
+	stateManager := state.NewStateManager(lc, sc, pc, rs)
 	stateManager.Start()
 
+	// Создаем канал для обработки сигнала завершения приложения
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 
-	// Ожидание сигнала завершения
 	<-sigChan
 
-	// Публикация события завершения работы
 	stateManager.EventManager.Publish(events.Event{
 		Type: events.EventShutdown,
 	})

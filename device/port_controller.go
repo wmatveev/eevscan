@@ -33,7 +33,7 @@ func (pc *PortController) RestartPortsReading() {
 	go pc.StartPortsReading()
 }
 
-func (pc *PortController) StartPortsReading() {
+func (pc *PortController) StartPortsReading() []byte {
 
 	for {
 		barcode, err := ReadFromPort("/dev/ttyACM0")
@@ -44,11 +44,11 @@ func (pc *PortController) StartPortsReading() {
 
 		if barcode != nil {
 			log.Printf("Barcode bytes: %s", string(barcode))
-			return
+			return barcode
 		}
 	}
 
-	return
+	return nil
 }
 
 func ReadFromPort(portName string) ([]byte, error) {
@@ -60,7 +60,6 @@ func ReadFromPort(portName string) ([]byte, error) {
 	defer func(s *serial.Port) {
 		err := s.Close()
 		if err != nil {
-
 		}
 	}(s)
 
