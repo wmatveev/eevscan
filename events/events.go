@@ -2,7 +2,6 @@ package events
 
 const (
 	EventObjectEnteredToZone = "objectEnteredZone"
-	//EventObjectLeftZone      = "objectLeftZone"
-	EventShutdown           = "shutdown"
-	EventSendBarcodeToRS232 = "sendBarcodeToRS232"
+	EventShutdown            = "shutdown"
+	EventSendBarcodeToRS232  = "sendBarcodeToRS232"
 )

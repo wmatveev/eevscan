@@ -28,6 +28,8 @@ func (rs *RS232Controller) Write(data []byte) {
 		if err != nil {
 		}
 	}(s)
+
+	log.Printf("Send to RS232 serial port:%b", data)
 	_, err = s.Write(data)
 	if err != nil {
 		log.Printf("RS232 Write err:%v", err)
