@@ -8,7 +8,7 @@ import (
 )
 
 type StateManager struct {
-	eventManager      *events.EventManager
+	EventManager      *events.EventManager
 	laserController   *laser.Controller
 	scannerController *scanner.Controller
 	portController    *device.PortController
@@ -17,13 +17,14 @@ type StateManager struct {
 func NewStateManager(lc *laser.Controller, sc *scanner.Controller, pc *device.PortController) *StateManager {
 	eventManager := events.NewEventManager()
 	stateManager := &StateManager{
-		eventManager:      eventManager,
+		EventManager:      eventManager,
 		laserController:   lc,
 		scannerController: sc,
 		portController:    pc,
 	}
 
 	eventManager.Subscribe(events.EventObjectEnteredToZone, stateManager.handleObjectEnteredToZone)
+	eventManager.Subscribe(events.EventShutdown, stateManager.handleShutdown)
 
 	return stateManager
 }
@@ -41,5 +42,9 @@ func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
 }
 
 func (sm *StateManager) Start() {
-	go sm.laserController.StartPinsPolling(sm.eventManager)
+	go sm.laserController.StartPinsPolling(sm.EventManager)
+}
+
+func (sm *StateManager) handleShutdown(event events.Event) {
+
 }
