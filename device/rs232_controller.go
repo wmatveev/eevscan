@@ -16,8 +16,19 @@ func NewRS232Controller() (*RS232Controller, error) {
 	}, nil
 }
 
-func (rs *RS232Controller) Write(data []byte) {
-	byteData := []byte(data)
+func (rs *RS232Controller) Write(data interface{}) {
+	var byteData []byte
+
+	// Определяем тип данных и выполняем преобразование
+	switch v := data.(type) {
+	case string:
+		byteData = []byte(v)
+	case []byte:
+		byteData = v
+	default:
+		log.Printf("Unsupported data type")
+		return
+	}
 
 	c := &serial.Config{Name: "/dev/ttyUSB0", Baud: 9600}
 	s, err := serial.OpenPort(c)
