@@ -46,6 +46,8 @@ func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
 
 	log.Println("---> 4")
 
+	sm.scannerController.DeactivateScanner()
+
 	//go func() {
 	//	select {
 	//	case barcode := <-sm.portController.Barcode:
