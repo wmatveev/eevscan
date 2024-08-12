@@ -30,13 +30,14 @@ func NewStateManager(lc *laser.Controller, sc *scanner.Controller, pc *device.Po
 }
 
 func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
-	log.Println("Object Entered To Zone")
+	log.Println(event)
+	//log.Println("Object Entered To Zone")
 
 	sm.laserController.Pause()
 
-	_ = sm.scannerController.ActivateScanner()
+	sm.scannerController.ActivateScanner()
 	sm.portController.StartPortsReading()
-	_ = sm.scannerController.DeactivateScanner()
+	sm.scannerController.DeactivateScanner()
 
 	sm.laserController.Resume()
 }
