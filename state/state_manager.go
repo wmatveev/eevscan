@@ -6,6 +6,7 @@ import (
 	"eevscan/laser"
 	"eevscan/scanner"
 	"log"
+	"time"
 )
 
 type StateManager struct {
@@ -35,7 +36,19 @@ func NewStateManager(lc *laser.Controller, sc *scanner.Controller, pc *device.Po
 }
 
 func (sm *StateManager) Start() {
-	go sm.laserController.StartPinsPolling(sm.EventManager)
+	//go sm.laserController.StartPinsPolling(sm.EventManager)
+
+	for j := 0; j < 3; j++ {
+		for i := 0; i < 10; i++ {
+			value := 0x01 << i
+			err := sm.scannerController.DeviceController.WriteToDevice(value)
+			if err != nil {
+				log.Printf("Error writing to device: %v", err)
+			}
+
+			time.Sleep(1 * time.Second)
+		}
+	}
 }
 
 func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {

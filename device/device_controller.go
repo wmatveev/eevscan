@@ -7,14 +7,14 @@ import (
 	"periph.io/x/periph/host"
 )
 
-type Controller struct {
+type DeviceController struct {
 	deviceAddr uint16
 	pinAddr    uint16
 	bus        i2c.BusCloser
 	device     i2c.Dev
 }
 
-func NewDeviceController(deviceAddr uint16, pinAddr uint16) (*Controller, error) {
+func NewDeviceController(deviceAddr uint16, pinAddr uint16) (*DeviceController, error) {
 	if _, err := host.Init(); err != nil {
 		return nil, err
 	}
@@ -26,7 +26,7 @@ func NewDeviceController(deviceAddr uint16, pinAddr uint16) (*Controller, error)
 
 	dev := i2c.Dev{Bus: bus, Addr: deviceAddr}
 
-	return &Controller{
+	return &DeviceController{
 		deviceAddr: deviceAddr,
 		pinAddr:    pinAddr,
 		bus:        bus,
@@ -34,7 +34,7 @@ func NewDeviceController(deviceAddr uint16, pinAddr uint16) (*Controller, error)
 	}, nil
 }
 
-func (dc *Controller) ReadingFromDevice() (uint8, error) {
+func (dc *DeviceController) ReadingFromDevice() (uint8, error) {
 	var readData [1]byte
 
 	if err := dc.device.Tx(nil, readData[:]); err != nil {
@@ -45,7 +45,7 @@ func (dc *Controller) ReadingFromDevice() (uint8, error) {
 	return readData[0], nil
 }
 
-func (dc *Controller) WriteToDevice(pinState uint16) error {
+func (dc *DeviceController) WriteToDevice(pinState uint16) error {
 	writeData := []byte{byte(pinState)}
 
 	if err := dc.device.Tx(writeData, nil); err != nil {
