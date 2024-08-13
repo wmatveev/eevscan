@@ -9,7 +9,7 @@ import (
 )
 
 type Controller struct {
-	deviceController *device.Controller
+	deviceController *device.DeviceController
 	mu               sync.Mutex
 	paused           bool
 }
