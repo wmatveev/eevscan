@@ -41,7 +41,7 @@ func (sm *StateManager) Start() {
 	for j := 0; j < 3; j++ {
 		for i := 0; i < 10; i++ {
 			value := 0x01 << i
-			err := sm.scannerController.DeviceController.WriteToDevice(value)
+			err := sm.scannerController.DeviceController.WriteToDevice(uint16(value))
 			if err != nil {
 				log.Printf("Error writing to device: %v", err)
 			}
