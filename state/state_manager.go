@@ -38,6 +38,8 @@ func NewStateManager(lc *laser.Controller, sc *scanner.Controller, pc *device.Po
 func (sm *StateManager) Start() {
 	//go sm.laserController.StartPinsPolling(sm.EventManager)
 
+	sm.scannerController.DeactivateScanner()
+
 	for j := 0; j < 3; j++ {
 		for i := 0; i < 10; i++ {
 			value := 0x01 << i
