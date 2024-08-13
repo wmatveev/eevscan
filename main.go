@@ -46,5 +46,5 @@ func main() {
 			Type: events.EventShutdown,
 		})
 	*/
-	select {}
+	//select {}
 }
