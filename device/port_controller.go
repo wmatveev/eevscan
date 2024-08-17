@@ -37,6 +37,9 @@ func (pc *PortController) StartPortsReading() []byte {
 
 	for {
 		for i := 0; i < len(pc.portNames); i++ {
+
+			log.Println(pc.portNames[i])
+
 			barcode, err := ReadFromPort(pc.portNames[i])
 			if err != nil {
 				log.Printf("Failed to read from port %s: %v", "/dev/ttyACM0", err)
