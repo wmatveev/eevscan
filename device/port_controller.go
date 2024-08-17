@@ -3,6 +3,7 @@ package device
 import (
 	"github.com/tarm/serial"
 	"log"
+	"time"
 )
 
 type PortController struct {
@@ -64,7 +65,7 @@ func ReadFromPort(portName string) ([]byte, error) {
 		Size:        8,
 		Parity:      serial.ParityNone,
 		StopBits:    serial.Stop1,
-		ReadTimeout: 0,
+		ReadTimeout: time.Millisecond * 100,
 	}
 
 	port, err := serial.OpenPort(config)
