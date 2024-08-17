@@ -41,11 +41,12 @@ func (pc *PortController) StartPortsReading() []byte {
 
 			log.Println(pc.portNames[i])
 
-			barcode, err := ReadFromPort(pc.portNames[i])
-			if err != nil {
-				log.Printf("Failed to read from port %s: %v", "/dev/ttyACM0", err)
-				continue
-			}
+			barcode, _ := ReadFromPort(pc.portNames[i])
+
+			//if err != nil {
+			//	log.Printf("Failed to read from port %s: %v", "/dev/ttyACM0", err)
+			//	continue
+			//}
 
 			if barcode != nil {
 				log.Printf("Barcode bytes: %s", string(barcode))
@@ -68,19 +69,33 @@ func ReadFromPort(portName string) ([]byte, error) {
 		ReadTimeout: time.Millisecond * 100,
 	}
 
+	log.Printf("---> Step 1")
+
 	port, err := serial.OpenPort(config)
 	if err != nil {
 		log.Printf("Failed to open port: %s", err)
 		return nil, err
 	}
 
-	defer port.Close()
+	log.Printf("---> Step 2")
+
+	defer func(port *serial.Port) {
+		log.Printf("---> Step 3")
+		err := port.Close()
+		if err != nil {
+			log.Printf("---> Step 4")
+		}
+	}(port)
+
+	log.Printf("---> Step 5")
 
 	buf := make([]byte, 128)
 	n, err := port.Read(buf)
 	if err != nil {
 		return nil, err
 	}
+
+	log.Printf("---> Step 6")
 
 	return buf[:n], nil
 
