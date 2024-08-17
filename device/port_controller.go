@@ -3,7 +3,6 @@ package device
 import (
 	"github.com/tarm/serial"
 	"log"
-	"time"
 )
 
 type PortController struct {
@@ -58,22 +57,48 @@ func (pc *PortController) StartPortsReading() []byte {
 }
 
 func ReadFromPort(portName string) ([]byte, error) {
-	c := &serial.Config{Name: portName, Baud: 9600, ReadTimeout: time.Millisecond * 10}
-	s, err := serial.OpenPort(c)
+
+	config := &serial.Config{
+		Name:        portName,
+		Baud:        9600,
+		Size:        8,
+		Parity:      serial.ParityNone,
+		StopBits:    serial.Stop1,
+		ReadTimeout: 0,
+	}
+
+	port, err := serial.OpenPort(config)
 	if err != nil {
+		log.Printf("Failed to open port: %s", err)
 		return nil, err
 	}
-	defer func(s *serial.Port) {
-		err := s.Close()
-		if err != nil {
-		}
-	}(s)
+
+	defer port.Close()
 
 	buf := make([]byte, 128)
-	n, err := s.Read(buf)
+	n, err := port.Read(buf)
 	if err != nil {
 		return nil, err
 	}
 
 	return buf[:n], nil
+
+	//c := &serial.Config{Name: portName, Baud: 9600, ReadTimeout: time.Millisecond * 10}
+	//s, err := serial.OpenPort(c)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//defer func(s *serial.Port) {
+	//	err := s.Close()
+	//	if err != nil {
+	//	}
+	//}(s)
+	//
+	//buf := make([]byte, 128)
+	//n, err := s.Read(buf)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//
+	//return buf[:n], nil
 }
