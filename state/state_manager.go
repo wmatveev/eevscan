@@ -72,5 +72,8 @@ func (sm *StateManager) handleSendBarcodeToRS232(event events.Event) {
 
 func (sm *StateManager) handleShutdown(event events.Event) {
 	sm.scannerController.DeactivateScanner()
+
+	log.Println("---> handleShutdown, Scanner Deactivated")
+
 	_ = event
 }
