@@ -6,7 +6,7 @@ import (
 )
 
 type Controller struct {
-	DeviceController *device.DeviceController
+	deviceController *device.DeviceController
 }
 
 func NewScannerController(devAddress uint16) (*Controller, error) {
@@ -16,12 +16,12 @@ func NewScannerController(devAddress uint16) (*Controller, error) {
 	}
 
 	return &Controller{
-		DeviceController: dc,
+		deviceController: dc,
 	}, nil
 }
 
 func (sc *Controller) ActivateScanner() {
-	err := sc.DeviceController.WriteToDevice(0x01)
+	err := sc.deviceController.WriteToDevice(0x01)
 	if err != nil {
 		log.Fatalf("Failed to activate scanner controller: %v", err)
 		return
@@ -31,7 +31,7 @@ func (sc *Controller) ActivateScanner() {
 }
 
 func (sc *Controller) DeactivateScanner() {
-	err := sc.DeviceController.WriteToDevice(0x00)
+	err := sc.deviceController.WriteToDevice(0x00)
 	if err != nil {
 		log.Fatalf("Failed to deactivate scanner controller: %v", err)
 		return

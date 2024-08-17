@@ -45,7 +45,7 @@ func (lc *Controller) StartPinsPolling(eventManager *events.EventManager) {
 			log.Fatalf("Failed to read from device: %v", err)
 		}
 
-		currentState := readData&0x03 != 0x00
+		currentState := readData&0x08 != 0x00
 
 		if currentState != lastState {
 			if currentState == true {
