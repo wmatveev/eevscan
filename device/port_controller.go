@@ -16,11 +16,11 @@ func NewPortController() (*PortController, error) {
 	return &PortController{
 		portNames: []string{
 			"/dev/ttyACM0",
-			//"/dev/ttyACM1",
-			//"/dev/ttyACM2",
-			//"/dev/ttyACM3",
-			//"/dev/ttyACM4",
-			//"/dev/ttyACM5",
+			"/dev/ttyACM1",
+			"/dev/ttyACM2",
+			"/dev/ttyACM3",
+			"/dev/ttyACM4",
+			"/dev/ttyACM5",
 		},
 		Barcode:     make(chan []byte),
 		QuitChannel: make(chan struct{}),
@@ -36,15 +36,17 @@ func (pc *PortController) RestartPortsReading() {
 func (pc *PortController) StartPortsReading() []byte {
 
 	for {
-		barcode, err := ReadFromPort("/dev/ttyACM0")
-		if err != nil {
-			log.Printf("Failed to read from port %s: %v", "/dev/ttyACM0", err)
-			continue
-		}
+		for i := 0; i < len(pc.portNames); i++ {
+			barcode, err := ReadFromPort(pc.portNames[i])
+			if err != nil {
+				log.Printf("Failed to read from port %s: %v", "/dev/ttyACM0", err)
+				continue
+			}
 
-		if barcode != nil {
-			log.Printf("Barcode bytes: %s", string(barcode))
-			return barcode
+			if barcode != nil {
+				log.Printf("Barcode bytes: %s", string(barcode))
+				return barcode
+			}
 		}
 	}
 
