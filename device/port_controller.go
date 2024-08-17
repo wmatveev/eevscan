@@ -54,6 +54,9 @@ func (pc *PortController) StartPortsReading() []byte {
 }
 
 func ReadFromPort(portName string) ([]byte, error) {
+
+	log.Println("---> Reading from port", portName)
+
 	c := &serial.Config{Name: portName, Baud: 9600}
 	s, err := serial.OpenPort(c)
 	if err != nil {
