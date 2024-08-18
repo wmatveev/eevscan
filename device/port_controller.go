@@ -49,6 +49,8 @@ func (pc *PortController) SetupSerialPorts() error {
 			return err
 		}
 
+		log.Printf("Opened port %s", portName)
+
 		pc.ports = append(pc.ports, port)
 	}
 
