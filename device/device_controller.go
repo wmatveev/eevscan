@@ -42,7 +42,7 @@ func (dc *DeviceController) ReadingFromDevice() (uint8, error) {
 		return 0, err
 	}
 
-	log.Printf("Reading from device: %08b\n", readData[0])
+	//log.Printf("Reading from device: %08b\n", readData[0])
 
 	return readData[0], nil
 }

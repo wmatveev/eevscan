@@ -40,21 +40,16 @@ func (lc *Controller) StartPinsPolling(eventManager *events.EventManager) {
 		}
 		lc.mu.Unlock()
 
-		readData, err := lc.deviceController.ReadingFromDevice()
-		if err != nil {
-			log.Fatalf("Failed to read from device: %v", err)
-		}
+		//readData, err := lc.deviceController.ReadingFromDevice()
+		//if err != nil {
+		//	log.Fatalf("Failed to read from device: %v", err)
+		//}
 
-		currentState := readData&0x08 != 0x00
+		time.Sleep(3 * time.Second)
 
-		log.Printf("Reading from device: %v | currentState: %v", readData, currentState)
-
-		if currentState == true {
-			eventManager.Publish(events.Event{
-				Type:    events.EventObjectEnteredToZone,
-				Payload: currentState,
-			})
-		}
+		eventManager.Publish(events.Event{
+			Type: events.EventObjectEnteredToZone,
+		})
 
 		//currentState := readData&0x08 != 0x00
 		//
