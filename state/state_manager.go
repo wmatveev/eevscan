@@ -45,8 +45,10 @@ func (sm *StateManager) handleObjectEnteredToZone(event events.Event) {
 
 	sm.scannerController.ActivateScanner()
 
-	barcode := sm.portController.StartPortsReading()
+	barcode := sm.portController.GetBarcodeFromPorts()
 	if barcode != nil {
+		log.Printf("Received barcode from ports: %v", barcode)
+
 		//sm.EventManager.Publish(events.Event{
 		//	Type:    events.EventSendBarcodeToRS232,
 		//	Payload: "JM-SH-OD-0145",
