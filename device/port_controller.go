@@ -41,7 +41,7 @@ func (pc *PortController) SetupSerialPorts() error {
 			Size:        8,
 			Parity:      serial.ParityNone,
 			StopBits:    serial.Stop1,
-			ReadTimeout: 10 * time.Millisecond,
+			ReadTimeout: 1 * time.Millisecond,
 		}
 
 		port, err := serial.OpenPort(config)
