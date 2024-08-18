@@ -47,6 +47,8 @@ func (lc *Controller) StartPinsPolling(eventManager *events.EventManager) {
 
 		currentState := readData&0x08 != 0x00
 
+		log.Printf("Reading from device: %v | currentState: %v", readData, currentState)
+
 		if currentState == true {
 			eventManager.Publish(events.Event{
 				Type:    events.EventObjectEnteredToZone,
