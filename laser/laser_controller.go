@@ -29,7 +29,7 @@ func NewLaserController(deviceAddr uint16) (*Controller, error) {
 }
 
 func (lc *Controller) StartPinsPolling(eventManager *events.EventManager) {
-	var lastState bool
+	//var lastState bool
 
 	for {
 		lc.mu.Lock()
@@ -47,16 +47,25 @@ func (lc *Controller) StartPinsPolling(eventManager *events.EventManager) {
 
 		currentState := readData&0x08 != 0x00
 
-		if currentState != lastState {
-			if currentState == true {
-				eventManager.Publish(events.Event{
-					Type:    events.EventObjectEnteredToZone,
-					Payload: currentState,
-				})
-			}
-
-			lastState = currentState
+		if currentState == true {
+			eventManager.Publish(events.Event{
+				Type:    events.EventObjectEnteredToZone,
+				Payload: currentState,
+			})
 		}
+
+		//currentState := readData&0x08 != 0x00
+		//
+		//if currentState != lastState {
+		//	if currentState == true {
+		//		eventManager.Publish(events.Event{
+		//			Type:    events.EventObjectEnteredToZone,
+		//			Payload: currentState,
+		//		})
+		//	}
+		//
+		//	lastState = currentState
+		//}
 
 		time.Sleep(10 * time.Millisecond)
 	}

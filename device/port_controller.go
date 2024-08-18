@@ -14,7 +14,7 @@ type PortController struct {
 
 func NewPortController() (*PortController, error) {
 
-	return &PortController{
+	portController := &PortController{
 		portNames: []string{
 			"/dev/ttyACM0",
 			"/dev/ttyACM1",
@@ -25,7 +25,28 @@ func NewPortController() (*PortController, error) {
 		},
 		Barcode:     make(chan []byte),
 		QuitChannel: make(chan struct{}),
-	}, nil
+	}
+
+	portController.SetupSerialPorts()
+
+	//return &PortController{
+	//	portNames: []string{
+	//		"/dev/ttyACM0",
+	//		"/dev/ttyACM1",
+	//		"/dev/ttyACM2",
+	//		"/dev/ttyACM3",
+	//		"/dev/ttyACM4",
+	//		"/dev/ttyACM5",
+	//	},
+	//	Barcode:     make(chan []byte),
+	//	QuitChannel: make(chan struct{}),
+	//}, nil
+
+	return portController, nil
+}
+
+func (pc *PortController) SetupSerialPorts() {
+
 }
 
 func (pc *PortController) RestartPortsReading() {
