@@ -27,7 +27,7 @@ func NewPortController() (*PortController, error) {
 		return nil, err
 	}
 
-	defer portController.CloseAllPorts()
+	//defer portController.CloseAllPorts()
 
 	return portController, nil
 }
